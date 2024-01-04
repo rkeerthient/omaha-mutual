@@ -13,8 +13,8 @@ import { useEffect } from "react";
 import ProfessionalCard from "../components/ProfessionalCard";
 import { MdMyLocation } from "react-icons/md";
 import { useState } from "react";
-import * as OpenCage from "opencage-api-client";
 import { Root } from "../types/openCage_response";
+import { geocode } from "opencage-api-client";
 
 const ProfessionalsWrapper = () => {
   const searchActions = useSearchActions();
@@ -28,7 +28,7 @@ const ProfessionalsWrapper = () => {
 
           try {
             const apiKey = import.meta.env.YEXT_PUBLIC_OPENCAGE_KEY;
-            const response: Root = await OpenCage.geocode({
+            const response: Root = await geocode({
               q: `${latitude},${longitude}`,
               key: apiKey,
             });
