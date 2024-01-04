@@ -4,7 +4,6 @@ import {
   ResultsCount,
   AppliedFilters,
   Pagination,
-  StandardCard,
   VerticalResults,
   Geolocation,
   SearchBar,
@@ -20,37 +19,37 @@ const ProfessionalsWrapper = () => {
   const searchActions = useSearchActions();
 
   const [addressString, setAddressString] = useState("");
-  const getAddress = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
+  // const getAddress = () => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       async (position) => {
+  //         const { latitude, longitude } = position.coords;
 
-          try {
-            const apiKey = import.meta.env.YEXT_PUBLIC_OPENCAGE_KEY;
-            const response: Root = await geocode({
-              q: `${latitude},${longitude}`,
-              key: apiKey,
-            });
+  //         try {
+  //           const apiKey = import.meta.env.YEXT_PUBLIC_OPENCAGE_KEY;
+  //           const response: Root = await geocode({
+  //             q: `${latitude},${longitude}`,
+  //             key: apiKey,
+  //           });
 
-            setAddressString(
-              `${
-                (response.results[0].components.city,
-                response.results[0].components.state_code)
-              } ${response.results[0].components.postcode}`
-            );
-          } catch (error) {
-            console.error("Error fetching address:", error);
-          }
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser");
-    }
-  };
+  //           setAddressString(
+  //             `${
+  //               (response.results[0].components.city,
+  //               response.results[0].components.state_code)
+  //             } ${response.results[0].components.postcode}`
+  //           );
+  //         } catch (error) {
+  //           console.error("Error fetching address:", error);
+  //         }
+  //       },
+  //       (error) => {
+  //         console.error("Error getting location:", error);
+  //       }
+  //     );
+  //   } else {
+  //     console.error("Geolocation is not supported by this browser");
+  //   }
+  // };
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -60,25 +59,25 @@ const ProfessionalsWrapper = () => {
     searchActions.executeVerticalQuery();
   }, []);
 
-  useEffect(() => {
-    if (addressString) {
-      addressString && searchActions.setQuery(addressString);
-      searchActions.setVertical("financial_professionals");
-      searchActions.executeVerticalQuery();
-    }
-  }, [addressString]);
+  // useEffect(() => {
+  //   if (addressString) {
+  //     addressString && searchActions.setQuery(addressString);
+  //     searchActions.setVertical("financial_professionals");
+  //     searchActions.executeVerticalQuery();
+  //   }
+  // }, [addressString]);
 
   return (
     <>
       <div className="flex flex-col">
         <SearchBar placeholder="Search by Name or Locations"></SearchBar>
-        <div
-          onClick={getAddress}
+        {/* <div
+          onClick={() => getAddress}
           className="w-fit flex gap-2 items-center hover:underline hover:cursor-pointer text-[#105fa8]"
         >
           <MdMyLocation />
           <div>Locate Me</div>
-        </div>
+        </div> */}
       </div>
 
       <div className={`flex mt-4 `}>
