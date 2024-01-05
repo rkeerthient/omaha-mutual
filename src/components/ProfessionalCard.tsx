@@ -19,6 +19,7 @@ const ProfessionalCard = (props: CardProps<FinancialProfessional>) => {
     languages,
     yearsOfExperience,
     c_locationsProfessionals,
+    c_clientFocuses,
     description,
   } = result.rawData;
 
@@ -69,24 +70,26 @@ const ProfessionalCard = (props: CardProps<FinancialProfessional>) => {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              {certifications && (
-                <div>
-                  <span className="font-medium">Certifications: </span>
-                  <span className="font-light">
-                    {certifications.join(", ")}
-                  </span>
-                </div>
-              )}
               {languages && (
                 <div>
                   <span className="font-medium">Languages: </span>
                   <span className="font-light">{languages.join(", ")}</span>
                 </div>
               )}
-              {yearsOfExperience && (
+              {certifications && (
                 <div>
-                  <span className="font-medium">Experience: </span>
-                  <span className="font-light">{yearsOfExperience} Years</span>
+                  <span className="font-medium">Client Focuses: </span>
+                  <span className="font-light">
+                    {certifications.join(", ")}
+                  </span>
+                </div>
+              )}
+              {c_clientFocuses && (
+                <div>
+                  <span className="font-medium">Client Focuses: </span>
+                  <span className="font-light">
+                    {c_clientFocuses.join(", ")}
+                  </span>
                 </div>
               )}
             </div>
