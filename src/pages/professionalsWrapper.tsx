@@ -1,4 +1,4 @@
-import { useSearchActions } from "@yext/search-headless-react";
+import { useSearchActions, useSearchState } from "@yext/search-headless-react";
 import {
   Facets,
   ResultsCount,
@@ -13,43 +13,23 @@ import ProfessionalCard from "../components/ProfessionalCard";
 import { MdMyLocation } from "react-icons/md";
 import { useState } from "react";
 import { Root } from "../types/openCage_response";
-import { geocode } from "opencage-api-client";
 
 const ProfessionalsWrapper = () => {
   const searchActions = useSearchActions();
-
+  const isLoading =
+    useSearchState((state) => state.searchStatus.isLoading) || false;
   const [addressString, setAddressString] = useState("");
-  // const getAddress = () => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       async (position) => {
-  //         const { latitude, longitude } = position.coords;
-
-  //         try {
-  //           const apiKey = import.meta.env.YEXT_PUBLIC_OPENCAGE_KEY;
-  //           const response: Root = await geocode({
-  //             q: `${latitude},${longitude}`,
-  //             key: apiKey,
-  //           });
-
-  //           setAddressString(
-  //             `${
-  //               (response.results[0].components.city,
-  //               response.results[0].components.state_code)
-  //             } ${response.results[0].components.postcode}`
-  //           );
-  //         } catch (error) {
-  //           console.error("Error fetching address:", error);
-  //         }
-  //       },
-  //       (error) => {
-  //         console.error("Error getting location:", error);
-  //       }
-  //     );
-  //   } else {
-  //     console.error("Geolocation is not supported by this browser");
-  //   }
-  // };
+  const getAddress = async () => {
+    const req =
+      await fetch(`https://api.opencagedata.com/geocode/v1/json?q=-22.6792%2C+14.5272&key=${
+        import.meta.env.YEXT_PUBLIC_OPENCAGE_KEY
+      }&pretty=1
+    `);
+    const res: Root = await req.json();
+    setAddressString(
+      `${res.results[0].components.city}, ${res.results[0].components.state_code} ${res.results[0].components.postcode}`
+    );
+  };
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -59,28 +39,34 @@ const ProfessionalsWrapper = () => {
     searchActions.executeVerticalQuery();
   }, []);
 
-  // useEffect(() => {
-  //   if (addressString) {
-  //     addressString && searchActions.setQuery(addressString);
-  //     searchActions.setVertical("financial_professionals");
-  //     searchActions.executeVerticalQuery();
-  //   }
-  // }, [addressString]);
+  useEffect(() => {
+    if (addressString) {
+      addressString && searchActions.setQuery(addressString);
+      searchActions.setVertical("financial_professionals");
+      searchActions.executeVerticalQuery();
+    }
+  }, [addressString]);
 
   return (
     <>
-      <div className="flex flex-col">
-        <SearchBar placeholder="Search by Name or Locations"></SearchBar>
-        {/* <div
-          onClick={() => getAddress}
-          className="w-fit flex gap-2 items-center hover:underline hover:cursor-pointer text-[#105fa8]"
-        >
-          <MdMyLocation />
-          <div>Locate Me</div>
-        </div> */}
+      <div className="flex flex-col bg-[#007f8a]">
+        <div className="centered-container w-full p-4 py-8">
+          <SearchBar placeholder="Search by Name or Locations"></SearchBar>
+          <div
+            onClick={getAddress}
+            className="w-fit flex gap-2 items-center hover:underline hover:cursor-pointer text-white"
+          >
+            <MdMyLocation />
+            <div>Locate Me</div>
+          </div>
+        </div>
       </div>
 
-      <div className={`flex mt-4 `}>
+      <div
+        className={`flex mt-4 ${
+          isLoading ? `opacity-70` : `opacity-100`
+        } min-h-[90vh] h-full centered-container`}
+      >
         <div className="w-72 mr-5 hidden md:block">
           <Facets customCssClasses={{ facetsContainer: "mr-10" }}></Facets>
         </div>
@@ -91,7 +77,7 @@ const ProfessionalsWrapper = () => {
           <div className="flex justify-between mb-4">
             <AppliedFilters />
           </div>
-          <div className="flex flex-col space-y-4 ">
+          <div className={`flex flex-col space-y-4`}>
             <VerticalResults
               CardComponent={ProfessionalCard}
               customCssClasses={{

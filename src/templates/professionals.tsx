@@ -45,9 +45,7 @@ const SearchWrapper: Template<
 > = ({}: TemplateRenderProps) => {
   return (
     <PageLayout>
-      <div className="centered-container">
-        <ProfessionalsWrapper />
-      </div>
+      <ProfessionalsWrapper />
     </PageLayout>
   );
 };

@@ -25,7 +25,7 @@ const ProfessionalCard = (props: CardProps<FinancialProfessional>) => {
   return (
     <div className="flex flex-col  border shadow-md p-4">
       <div className="flex gap-4">
-        <div className="basis-1/3 flex  flex-col gap-4 items-center">
+        <div className="basis-1/3 flex flex-col gap-4 items-center justify-between">
           <div className="flex gap-2">
             <Image image={headshot} className="!w-28 !h-28"></Image>
             <div className="flex flex-col my-auto">
@@ -36,7 +36,7 @@ const ProfessionalCard = (props: CardProps<FinancialProfessional>) => {
               </div>
             </div>
           </div>
-          <div className="flex gap-8">
+          <div className="flex gap-8 mb-8">
             <div className="px-4 cursor-pointer py-2 rounded-full border text-sm text-white bg-[#105fa8] hover:bg-[#003a70]">
               Contact now
             </div>
@@ -92,11 +92,11 @@ const ProfessionalCard = (props: CardProps<FinancialProfessional>) => {
             </div>
           </div>
           <div className="flex flex-col gap-4">
-            <div className="flex gap-4">
-              <CiLinkedin className="w-6 h-6" />
-              <CiFacebook className="w-6 h-6" />
-              <FaRegEnvelope className="w-6 h-6" />
-              <CiGlobe className="w-6 h-6" />
+            <div className="flex gap-4 text-[#105fa8]">
+              <CiLinkedin className="w-8 h-8 hover:cursor-pointer" />
+              <CiFacebook className="w-8 h-8 hover:cursor-pointer" />
+              <FaRegEnvelope className="w-8 h-8 hover:cursor-pointer" />
+              <CiGlobe className="w-8 h-8 hover:cursor-pointer" />
             </div>
             <div className="text-xs text-slate-500 italic">
               {name} is registered to do business in{" "}

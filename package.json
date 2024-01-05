@@ -30,7 +30,6 @@
     "@yext/search-headless-react": "^2.4.0",
     "@yext/search-ui-react": "^1.4.1",
     "@yext/types": "0.1.13-alpha",
-    "axios": "^1.6.4",
     "font-awesome": "^4.7.0",
     "mapbox-gl": "^3.0.1",
     "markdown-to-jsx": "^7.3.2",
