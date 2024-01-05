@@ -17,7 +17,7 @@ export const config: TemplateConfig = {
   name: "professionals",
 };
 export const getPath: GetPath<TemplateRenderProps> = () => {
-  return `professionals.html`;
+  return `index.html`;
 };
 
 export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
